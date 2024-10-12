@@ -1,23 +1,25 @@
-import Label from './Label';
-import Input from './Input';
+import Label from '../Label';
+import Input from '../Input';
 import { forwardRef } from 'react';
 
-const InputForm = forwardRef((props, ref) => {
+const RadioInput = forwardRef((props, ref) => {
   const { className, label, name, type, placeholder, onChange, value } = props;
   return (
-    <div className={`flex flex-col gap-2 ${className}`}>
-      <Label htmlFor={name}>{label}</Label>
+    <div className="flex items-center">
       <Input
         name={name}
-        className="w-full"
         type={type}
         placeholder={placeholder}
         ref={ref}
         onChange={onChange}
         value={value}
+        className="mr-2"
       />
+      <Label htmlFor={name} className={`flex items-center ${className}`}>
+        {label}
+      </Label>
     </div>
   );
 });
 
-export default InputForm;
+export default RadioInput;
