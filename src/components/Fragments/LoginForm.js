@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import InputForm from '../Elements/Input';
-import { Heading } from '../Elements/Text/Heading';
+import { Heading, Text } from '../Elements/Text/index';
 import Button from '../Elements/Button';
-import Text from '../Elements/Text/Text';
 import { auth } from '../../services/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
