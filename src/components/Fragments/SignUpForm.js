@@ -17,30 +17,23 @@ export const SignUpForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      await updateProfile(user, { displayName: nama });
-
-      setEmail('');
-      setPassword('');
-      setNama('');
-      console.log('berhasil');
-
-      navigate('/login');
-    } catch (err) {
-      console.log(err);
-    }
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log('berhasil', user);
+        navigate('/login');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
   };
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <Heading>Sign Up</Heading>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <InputForm
           label="Email"
           name="email"
@@ -66,10 +59,13 @@ export const SignUpForm = () => {
           onChange={(e) => setPassword(e.target.value)}
         ></InputForm>
         <Button type={'submit'}>Sign Up</Button>
-        <Text>
-          Already have a account? <a href="/login">Login</a>
-        </Text>
       </form>
+      <Text>
+        Already have a account?{' '}
+        <a href="/login" className="text-secondary font-semibold">
+          Login
+        </a>
+      </Text>
     </div>
   );
 };

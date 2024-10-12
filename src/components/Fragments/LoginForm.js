@@ -15,23 +15,24 @@ export const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(email);
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      setEmail('');
-      setPassword('');
-      console.log('berhasil');
-      navigate('/');
-    } catch (err) {
-      console.log(err);
-    }
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        navigate('/play');
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
   };
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <Heading>Login</Heading>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <InputForm
           label="Email"
           name="email"
@@ -39,7 +40,7 @@ export const LoginForm = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="nama@email.com"
-        ></InputForm>
+        />
         <InputForm
           label="Password"
           name="password"
@@ -47,11 +48,16 @@ export const LoginForm = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="*********"
-        ></InputForm>
+        />
         <Button type={'submit'}>Login</Button>
       </form>
       <Text>
-        Don't have a account? <a href="/register">Regsiter now</a>
+        Don't have a account?
+        <a href="/register" className="text-secondary font-semibold">
+          {' '}
+          Regsiter
+        </a>{' '}
+        now
       </Text>
     </div>
   );
