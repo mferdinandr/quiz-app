@@ -7,14 +7,14 @@ import { Heading } from '../components/Elements/Text';
 import RobotInput from '../components/Elements/Input/Radio/index';
 import { useNavigate } from 'react-router-dom';
 
-const CATEGORY = [
+export const CATEGORY = [
   { value: '9', label: 'General Knowledge' },
   { value: '17', label: 'Science & Nature' },
   { value: '21', label: 'Sports' },
   { value: '22', label: 'Geography' },
 ];
 
-const DIFFICULTY = [
+export const DIFFICULTY = [
   { value: 'easy', label: 'Easy' },
   { value: 'medium', label: 'Medium' },
   { value: 'hard', label: 'Hard' },
