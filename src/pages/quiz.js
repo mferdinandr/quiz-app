@@ -39,8 +39,7 @@ const Quiz = () => {
       });
     }
     setIsAnswered(false);
-    // navigate('/results');
-    console.log(score > 0 ? (score * 100) / 2 : 0);
+    navigate('/result');
   };
 
   if (isLoading) return <h1>Loading.....</h1>;

@@ -6,6 +6,7 @@ import Register from './pages/registerPage';
 import LoginPage from './pages/loginPage';
 import Play from './pages/play';
 import Quiz from './pages/quiz';
+import Result from './pages/result';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <Route path="/register" Component={Register} />
           <Route path="/play" Component={Play} />
           <Route path="/quiz/:category/:difficulty" Component={Quiz} />
+          <Route path="/result" Component={Result} />
         </Routes>
       </Router>
     </div>

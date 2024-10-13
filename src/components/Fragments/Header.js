@@ -27,14 +27,12 @@ const Header = () => {
       if (user) {
         const uid = user.uid;
         setUserInfo(user);
-        console.log('uid', uid);
       } else {
         console.log('user is logged out');
       }
     });
   }, [userInfo]);
 
-  console.log(user);
   return (
     <ul className="flex py-3 px-5 justify-between items-center border-b border-text">
       <li className="font-bold">QUWIZZ APP</li>
