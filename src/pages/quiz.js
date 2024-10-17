@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getQuestions } from '../services/request';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -15,6 +15,8 @@ const Quiz = () => {
   const [isAnswered, setIsAnswered] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, scoreDispatch] = useContext(quizContext);
+
+  const [second, setSecond] = useState(10);
 
   const navigate = useNavigate();
   const user = auth.currentUser;
@@ -45,6 +47,23 @@ const Quiz = () => {
     navigate('/result');
   };
 
+  const Timer = () => {
+    useEffect(() => {
+      if (second > 0) {
+        setTimeout(() => {
+          setSecond(second - 1);
+        }, 1000);
+      }
+    }, [second]);
+    return <div>{second}</div>;
+  };
+
+  useEffect(() => {
+    if (second === 0) {
+      navigate('/result');
+    }
+  }, [second, navigate]);
+
   if (isLoading)
     return (
       <Layout>
@@ -67,43 +86,50 @@ const Quiz = () => {
   return (
     <Layout>
       {user ? (
-        <div className="flex flex-col justify-between w-2/3 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-5 py-3">
-          <div className="flex justify-between">
-            <h1>{categoryData.label}</h1>
-            <h1>{difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}</h1>
+        second > 0 && (
+          <div className="flex flex-col justify-between w-2/3 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-5 py-3">
+            <div className="flex justify-between">
+              <h1>{categoryData.label}</h1>
+              <h1>
+                {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+              </h1>
+            </div>
+            <div className="flex justify-between">
+              <h1>
+                {currentQuestion + 1}/{data.length}
+              </h1>
+              <Timer />
+            </div>
+            <div>
+              <Question
+                question={data[currentQuestion]}
+                setIsAnswered={setIsAnswered}
+                isAnswered={isAnswered}
+              ></Question>
+            </div>
+            {data.length === currentQuestion + 1 ? (
+              <Button
+                className={`btn btn-primary align-self-end ${
+                  isAnswered === false && 'disabled'
+                }`}
+                onClick={finishQuiz}
+              >
+                Finish
+              </Button>
+            ) : (
+              <Button
+                className={`btn btn-primary align-self-end ${
+                  isAnswered === false && 'disabled'
+                }`}
+                onClick={nextQuestion}
+              >
+                Next
+              </Button>
+            )}
           </div>
-          <h1>
-            {currentQuestion + 1}/{data.length}
-          </h1>
-          <div>
-            <Question
-              question={data[currentQuestion]}
-              setIsAnswered={setIsAnswered}
-              isAnswered={isAnswered}
-            ></Question>
-          </div>
-          {data.length === currentQuestion + 1 ? (
-            <Button
-              className={`btn btn-primary align-self-end ${
-                isAnswered === false && 'disabled'
-              }`}
-              onClick={finishQuiz}
-            >
-              Finish
-            </Button>
-          ) : (
-            <Button
-              className={`btn btn-primary align-self-end ${
-                isAnswered === false && 'disabled'
-              }`}
-              onClick={nextQuestion}
-            >
-              Next
-            </Button>
-          )}
-        </div>
+        )
       ) : (
-        <Resistance />
+        <Resistance></Resistance>
       )}
     </Layout>
   );

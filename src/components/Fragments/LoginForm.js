@@ -24,6 +24,7 @@ export const LoginForm = () => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        alert('Tidak terdaftar');
         console.log(errorCode, errorMessage);
       });
   };

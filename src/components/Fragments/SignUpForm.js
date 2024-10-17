@@ -17,14 +17,13 @@ export const SignUpForm = () => {
     e.preventDefault();
 
     await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log('berhasil', user);
+      .then(() => {
         navigate('/login');
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        alert('Tidak terdaftar');
         console.log(errorCode, errorMessage);
       });
   };
