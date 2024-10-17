@@ -7,6 +7,7 @@ import LoginPage from './pages/loginPage';
 import Play from './pages/play';
 import Quiz from './pages/quiz';
 import Result from './pages/result';
+import NotFoundPage from './pages/notFoundPage';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="/play" Component={Play} />
           <Route path="/quiz/:category/:difficulty" Component={Quiz} />
           <Route path="/result" Component={Result} />
+          <Route path="*" Component={NotFoundPage} />
         </Routes>
       </Router>
     </div>
