@@ -7,6 +7,8 @@ import { CATEGORY } from './play';
 import Question from '../components/Fragments/Question';
 import quizContext from '../services/quizContext';
 import Button from '../components/Elements/Button';
+import { auth } from '../services/firebase';
+import Resistance from '../components/Fragments/Resistance';
 
 const Quiz = () => {
   const { category, difficulty } = useParams();
@@ -15,6 +17,7 @@ const Quiz = () => {
   const [score, scoreDispatch] = useContext(quizContext);
 
   const navigate = useNavigate();
+  const user = auth.currentUser;
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['questions'],
@@ -63,41 +66,45 @@ const Quiz = () => {
 
   return (
     <Layout>
-      <div className="flex flex-col justify-between w-2/3 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-5 py-3">
-        <div className="flex justify-between">
-          <h1>{categoryData.label}</h1>
-          <h1>{difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}</h1>
+      {user ? (
+        <div className="flex flex-col justify-between w-2/3 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-5 py-3">
+          <div className="flex justify-between">
+            <h1>{categoryData.label}</h1>
+            <h1>{difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}</h1>
+          </div>
+          <h1>
+            {currentQuestion + 1}/{data.length}
+          </h1>
+          <div>
+            <Question
+              question={data[currentQuestion]}
+              setIsAnswered={setIsAnswered}
+              isAnswered={isAnswered}
+            ></Question>
+          </div>
+          {data.length === currentQuestion + 1 ? (
+            <Button
+              className={`btn btn-primary align-self-end ${
+                isAnswered === false && 'disabled'
+              }`}
+              onClick={finishQuiz}
+            >
+              Finish
+            </Button>
+          ) : (
+            <Button
+              className={`btn btn-primary align-self-end ${
+                isAnswered === false && 'disabled'
+              }`}
+              onClick={nextQuestion}
+            >
+              Next
+            </Button>
+          )}
         </div>
-        <h1>
-          {currentQuestion + 1}/{data.length}
-        </h1>
-        <div>
-          <Question
-            question={data[currentQuestion]}
-            setIsAnswered={setIsAnswered}
-            isAnswered={isAnswered}
-          ></Question>
-        </div>
-        {data.length === currentQuestion + 1 ? (
-          <Button
-            className={`btn btn-primary align-self-end ${
-              isAnswered === false && 'disabled'
-            }`}
-            onClick={finishQuiz}
-          >
-            Finish
-          </Button>
-        ) : (
-          <Button
-            className={`btn btn-primary align-self-end ${
-              isAnswered === false && 'disabled'
-            }`}
-            onClick={nextQuestion}
-          >
-            Next
-          </Button>
-        )}
-      </div>
+      ) : (
+        <Resistance />
+      )}
     </Layout>
   );
 };
