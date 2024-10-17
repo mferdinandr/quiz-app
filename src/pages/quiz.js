@@ -42,8 +42,22 @@ const Quiz = () => {
     navigate('/result');
   };
 
-  if (isLoading) return <h1>Loading.....</h1>;
-  if (error) return <h1>Cannot Load Questions</h1>;
+  if (isLoading)
+    return (
+      <Layout>
+        <div className="flex flex-col items-center justify-between w-2/3 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-5 py-3">
+          <div className="loader"></div>
+        </div>
+      </Layout>
+    );
+  if (error)
+    return (
+      <Layout>
+        <div className="flex flex-col justify-between w-2/3 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-5 py-3">
+          <h1>Cannot load the question</h1>
+        </div>
+      </Layout>
+    );
 
   const categoryData = CATEGORY.find((data) => data.value === category);
 

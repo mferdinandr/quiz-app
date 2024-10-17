@@ -78,7 +78,17 @@ const Play = () => {
               />
             ))}
           </div>
-          <Button type="submit">Play!</Button>
+          <Button
+            type="submit"
+            className={
+              filter.category && filter.difficulty
+                ? ''
+                : 'bg-transparent text-secondary cursor-default'
+            }
+            disabled={!filter.category || !filter.difficulty}
+          >
+            Play!
+          </Button>
         </form>
       </div>
     </Layout>

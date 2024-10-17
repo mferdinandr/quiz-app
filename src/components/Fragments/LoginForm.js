@@ -19,6 +19,7 @@ export const LoginForm = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         navigate('/play');
+        console.log(user);
       })
       .catch((error) => {
         const errorCode = error.code;
